@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddSingleton<IDataService, DataService>();
+builder.Services.AddSingleton<IDataService, DummyDataLayer.DataService>();
 
 builder.Services.AddMapster();
 

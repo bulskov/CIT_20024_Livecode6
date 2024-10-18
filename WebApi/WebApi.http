@@ -16,7 +16,7 @@ Content-Type: application/json
 }
 
 ###
-PUT {{WebApi_HostAddress}}/api/categories/1111
+PUT {{WebApi_HostAddress}}/api/categories/9
 Content-Type: application/json
 {
     "name": "test",
@@ -25,4 +25,4 @@ Content-Type: application/json
 
 ###
 
-DELETE {{WebApi_HostAddress}}/api/categories/1
+DELETE {{WebApi_HostAddress}}/api/categories/9

@@ -1,19 +1,16 @@
-﻿using DataLayer.Models;
-using System.Collections.Generic;
-
-namespace DataLayer
+﻿namespace DataLayer;
+public interface IDataService
 {
-    public interface IDataService
-    {
-        IList<Category> GetCategories();
-        Category? GetCategory(int id);
-        IList<Product> GetProducts();
-        Product? GetProduct(int id);
-        Category CreateCategory(string name, string description);
-        bool UpdateCategory(Category category);
-        bool DeleteCategory(int id);
+    IList<Category> GetCategories();
 
-        IList<ProductSearchModel> GetProductByName(string search);
-        IList<Category> GetCategoriesByName(string name);
-    }
+    Category GetCategory(int id);
+    Category CreateCategory(string name, string description);
+
+    bool UpdateCategory(Category category);
+
+    bool DeleteCategory(int id);
+
+    IList<Product> GetProducts();
+
+
 }

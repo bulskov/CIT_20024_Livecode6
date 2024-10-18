@@ -1,9 +1,7 @@
-﻿using DataLayer.Models;
-using System.Collections.Generic;
-using System.Linq;
+﻿using DataLayer;
 
 
-namespace DataLayer
+namespace DummyDataLayer
 {
     public class DataService : IDataService
     {
@@ -55,7 +53,7 @@ namespace DataLayer
         }
 
         public bool UpdateCategory(Category category)
-        { 
+        {
             var dbCat = GetCategory(category.Id);
             if (dbCat == null)
             {
@@ -86,21 +84,6 @@ namespace DataLayer
         public Product? GetProduct(int id)
         {
             return _products.FirstOrDefault(x => x.Id == id);
-        }
-
-        public IList<ProductSearchModel> GetProductByName(string search)
-        {
-            return _products
-                .Where(x => x.Name.ToLower().Contains(search.ToLower()))
-                .Select(x => new ProductSearchModel { 
-                    ProductName = x.Name, 
-                    CategoryName = x.Category?.Name ?? "No category found" })
-                .ToList();
-        }
-
-        public IList<Category> GetCategoriesByName(string name)
-        {
-            return _categories.Where(x => x.Name.Contains(name)).ToList();
         }
     }
 }
