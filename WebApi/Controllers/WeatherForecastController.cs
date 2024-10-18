@@ -3,16 +3,16 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebApi.Controllers;
 [ApiController]
 [Route("[Controller]")]
-public class xxxWeatherForecastController : ControllerBase
+public class WeatherForecastController : ControllerBase
 {
     private static readonly string[] Summaries = new[]
     {
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
     };
 
-    private readonly ILogger<xxxWeatherForecastController> _logger;
+    private readonly ILogger<WeatherForecastController> _logger;
 
-    public xxxWeatherForecastController(ILogger<xxxWeatherForecastController> logger)
+    public WeatherForecastController(ILogger<WeatherForecastController> logger)
     {
         _logger = logger;
     }
