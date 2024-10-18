@@ -26,7 +26,7 @@ public class CategoriesController : ControllerBase
     {
         var category = _dataService.GetCategory(id);
 
-        if(category == null)
+        if (category == null)
         {
             return NotFound();
         }
@@ -35,9 +35,43 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult CreateCategory(CreateCategoryModel model)
+    public IActionResult CreateCategory(CreateAndUpdateCategoryModel model)
     {
         var category = _dataService.CreateCategory(model.Name, model.Description);
         return Ok(category);
+    }
+
+    [HttpDelete("{id}")]
+    public IActionResult DeleteCategory(int id)
+    {
+        var result = _dataService.DeleteCategory(id);
+
+        if (result)
+        {
+            return NoContent();
+        }
+
+        return NotFound();
+    }
+
+    [HttpPut("{id}")]
+    public IActionResult UpdateCategory(int id, CreateAndUpdateCategoryModel model)
+    {
+        var category = _dataService.GetCategory(id);
+
+        if(category == null)
+        {
+            return NotFound();
+        }
+
+        
+
+        category.Name = model.Name;
+        category.Description = model.Description;
+
+
+        _dataService.UpdateCategory(category);
+
+        return NoContent();
     }
 }
