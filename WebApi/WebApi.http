@@ -5,7 +5,7 @@ Accept: application/json
 
 ###
 
-GET {{WebApi_HostAddress}}/api/categories/111
+GET {{WebApi_HostAddress}}/api/categories/1
 
 ###
 POST {{WebApi_HostAddress}}/api/categories

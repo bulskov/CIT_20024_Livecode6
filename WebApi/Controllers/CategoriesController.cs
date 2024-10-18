@@ -1,4 +1,5 @@
 ﻿using DataLayer;
+using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Models;
 
@@ -9,19 +10,26 @@ namespace WebApi.Controllers;
 public class CategoriesController : ControllerBase
 {
     IDataService _dataService;
+    private readonly LinkGenerator _linkGenerator;
 
-    public CategoriesController(IDataService dataService)
+    public CategoriesController(
+        IDataService dataService,
+        LinkGenerator linkGenerator)
     {
         _dataService = dataService;
+        _linkGenerator = linkGenerator;
     }
 
     [HttpGet]
     public IActionResult GetCategories()
     {
-        return Ok(_dataService.GetCategories());
+        var categories = _dataService
+            .GetCategories()
+            .Select(CreateCategoryModel);
+        return Ok(categories);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id}", Name = nameof(GetCategory))]
     public IActionResult GetCategory(int id)
     {
         var category = _dataService.GetCategory(id);
@@ -30,15 +38,18 @@ public class CategoriesController : ControllerBase
         {
             return NotFound();
         }
+        var model = CreateCategoryModel(category);
 
-        return Ok(category);
+        return Ok(model);
     }
 
+   
+
     [HttpPost]
-    public IActionResult CreateCategory(CreateAndUpdateCategoryModel model)
+    public IActionResult CreateCategory(CreateCategoryModel model)
     {
         var category = _dataService.CreateCategory(model.Name, model.Description);
-        return Ok(category);
+        return Ok(CreateCategoryModel(category));
     }
 
     [HttpDelete("{id}")]
@@ -55,7 +66,7 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public IActionResult UpdateCategory(int id, CreateAndUpdateCategoryModel model)
+    public IActionResult UpdateCategory(int id, UpdateCategoryModel model)
     {
         var category = _dataService.GetCategory(id);
 
@@ -73,5 +84,25 @@ public class CategoriesController : ControllerBase
         _dataService.UpdateCategory(category);
 
         return NoContent();
+    }
+
+
+
+    private CategoryModel? CreateCategoryModel(Category? category)
+    {
+        if(category == null)
+        {
+            return null;
+        }
+
+        var model = category.Adapt<CategoryModel>();
+        model.Url = GetUrl(category.Id);
+
+        return model;
+    }
+
+    private string? GetUrl(int id)
+    {
+        return _linkGenerator.GetUriByName(HttpContext, nameof(GetCategory), new { id });
     }
 }

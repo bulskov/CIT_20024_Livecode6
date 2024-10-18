@@ -1,10 +1,13 @@
 using DataLayer;
+using Mapster;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddSingleton<IDataService, DataService>();
+
+builder.Services.AddMapster();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
