@@ -79,6 +79,12 @@ public class DataService : IDataService
         return db.Products.Include(x => x.Category).ToList();
     }
 
+    public int NumberOfProducts()
+    {
+        var db = new NorthwindContext();
+        return db.Products.Count();
+    }
+
     public Product? GetProduct(int id)
     {
         var db = new NorthwindContext();

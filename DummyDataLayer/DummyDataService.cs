@@ -89,6 +89,11 @@ namespace DummyDataLayer
             return _products;
         }
 
+        public int NumberOfProducts()
+        {
+            return _products.Count;
+        }
+
         public Product? GetProduct(int id)
         {
             return _products.FirstOrDefault(x => x.Id == id);

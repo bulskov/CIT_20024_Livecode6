@@ -12,5 +12,7 @@ public interface IDataService
 
     IList<Product> GetProducts();
 
+    int NumberOfProducts();
+
     Product? GetProduct(int id);
 }
