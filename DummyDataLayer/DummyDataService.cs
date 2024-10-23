@@ -29,9 +29,17 @@ namespace DummyDataLayer
         }
 
 
-        public IList<Category> GetCategories()
+        public IList<Category> GetCategories(int page, int pageSize)
         {
-            return _categories;
+            return _categories
+                .Skip(page * pageSize)
+                .Take(pageSize)
+                .ToList();
+        }
+
+        public int NumberOfCategories()
+        {
+            return _categories.Count;
         }
 
         public Category? GetCategory(int id)

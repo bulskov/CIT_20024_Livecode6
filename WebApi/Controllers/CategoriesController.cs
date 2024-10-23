@@ -20,14 +20,24 @@ public class CategoriesController : ControllerBase
         _linkGenerator = linkGenerator;
     }
 
-    [HttpGet]
-    public IActionResult GetCategories()
+    [HttpGet(Name = nameof(GetCategories))]
+    public IActionResult GetCategories(int page = 0, int pageSize = 2)
     {
         var categories = _dataService
-            .GetCategories()
+            .GetCategories(page, pageSize)
             .Select(CreateCategoryModel);
-        return Ok(categories);
+        var numberOfItems = _dataService.NumberOfCategories();
+        object result = CreatePaging(
+            nameof(GetCategories),
+            page, 
+            pageSize, 
+            numberOfItems, 
+            categories);
+        return Ok(result);
     }
+
+    
+
 
     [HttpGet("{id}", Name = nameof(GetCategory))]
     public IActionResult GetCategory(int id)
@@ -103,6 +113,48 @@ public class CategoriesController : ControllerBase
 
     private string? GetUrl(int id)
     {
-        return _linkGenerator.GetUriByName(HttpContext, nameof(GetCategory), new { id });
+        return _linkGenerator.GetUriByName(
+            HttpContext, 
+            nameof(GetCategory), new { id });
+    }
+
+    private string? GetLink(string linkName, int page, int pageSize)
+    {
+        return _linkGenerator.GetUriByName(
+                    HttpContext,
+                    linkName,
+                    new { page, pageSize }
+                    );
+    }
+
+    private object CreatePaging<T>(string linkName, int page, int pageSize, int total, IEnumerable<T?> items)
+    {
+        
+
+        var numberOfPages =
+            (int)Math.Ceiling(total / (double)pageSize);
+
+        var curPage = GetLink(linkName, page, pageSize);
+
+        var nextPage =
+            page < numberOfPages - 1
+            ? GetLink(linkName, page + 1, pageSize)
+            : null;
+
+        var prevPage =
+            page > 0
+            ? GetLink(linkName, page - 1, pageSize)
+            : null;
+
+        var result = new
+        {
+            CurPage = curPage,
+            NextPage = nextPage,
+            PrevPage = prevPage,
+            NumberOfItems = total,
+            NumberPages = numberOfPages,
+            Items = items
+        };
+        return result;
     }
 }

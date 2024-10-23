@@ -1,8 +1,8 @@
 ﻿namespace DataLayer;
 public interface IDataService
 {
-    IList<Category> GetCategories();
-
+    IList<Category> GetCategories(int page, int pageSize);
+    int NumberOfCategories();
     Category GetCategory(int id);
     Category CreateCategory(string name, string description);
 

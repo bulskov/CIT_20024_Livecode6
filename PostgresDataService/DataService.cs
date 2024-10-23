@@ -25,7 +25,13 @@ public class DataService : IDataService
 
     }
 
-    
+    public int NumberOfCategories()
+    {
+        var db = new NorthwindContext();
+        return db.Categories.Count();
+    }
+
+
     public bool UpdateCategory(Category category)
     {
         var db = new NorthwindContext();
@@ -52,10 +58,13 @@ public class DataService : IDataService
         return db.SaveChanges() > 0;
     }
 
-    public IList<Category> GetCategories()
+    public IList<Category> GetCategories(int page, int pageSize)
     {
         var db = new NorthwindContext();
-        return db.Categories.ToList();
+        return db.Categories
+            .Skip(page * pageSize)
+            .Take(pageSize)
+            .ToList();
     }
 
     public Category? GetCategory(int id)
