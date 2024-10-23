@@ -5,20 +5,31 @@ namespace WebApi.Controllers;
 
 [ApiController]
 [Route("api/products")]
-public class ProductsController :ControllerBase
+public class ProductsController :BaseController
 {
     private readonly IDataService _dataService;
 
-    public ProductsController(IDataService dataService)
+    public ProductsController(
+        IDataService dataService,
+        LinkGenerator linkGenerator)
+        :base(linkGenerator)
     {
         _dataService = dataService;
     }
 
-    [HttpGet]
-    public IActionResult GetProducts()
+    [HttpGet(Name = nameof(GetProducts))]
+    public IActionResult GetProducts(int page = 0, int pageSize = 10)
     {
         var products = _dataService.GetProducts();
-        return Ok(products);
+
+        var result = CreatePaging(
+            nameof(GetProducts),
+            page,
+            pageSize,
+            _dataService.NumberOfProducts(),
+            products);
+
+        return Ok(result);
     }
 
     [HttpGet("{id}")]

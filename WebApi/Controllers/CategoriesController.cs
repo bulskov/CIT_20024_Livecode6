@@ -7,7 +7,7 @@ namespace WebApi.Controllers;
 
 [ApiController]
 [Route("api/categories")]
-public class CategoriesController : ControllerBase
+public class CategoriesController : BaseController
 {
     IDataService _dataService;
     private readonly LinkGenerator _linkGenerator;
@@ -15,6 +15,7 @@ public class CategoriesController : ControllerBase
     public CategoriesController(
         IDataService dataService,
         LinkGenerator linkGenerator)
+        :base(linkGenerator)
     {
         _dataService = dataService;
         _linkGenerator = linkGenerator;
@@ -126,35 +127,6 @@ public class CategoriesController : ControllerBase
                     new { page, pageSize }
                     );
     }
+     
 
-    private object CreatePaging<T>(string linkName, int page, int pageSize, int total, IEnumerable<T?> items)
-    {
-        
-
-        var numberOfPages =
-            (int)Math.Ceiling(total / (double)pageSize);
-
-        var curPage = GetLink(linkName, page, pageSize);
-
-        var nextPage =
-            page < numberOfPages - 1
-            ? GetLink(linkName, page + 1, pageSize)
-            : null;
-
-        var prevPage =
-            page > 0
-            ? GetLink(linkName, page - 1, pageSize)
-            : null;
-
-        var result = new
-        {
-            CurPage = curPage,
-            NextPage = nextPage,
-            PrevPage = prevPage,
-            NumberOfItems = total,
-            NumberPages = numberOfPages,
-            Items = items
-        };
-        return result;
-    }
 }
