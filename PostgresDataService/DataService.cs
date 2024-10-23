@@ -69,4 +69,10 @@ public class DataService : IDataService
         var db = new NorthwindContext();
         return db.Products.Include(x => x.Category).ToList();
     }
+
+    public Product? GetProduct(int id)
+    {
+        var db = new NorthwindContext();
+        return db.Products.Include(x => x.Category).FirstOrDefault(x => x.Id == id);
+    }
 }
