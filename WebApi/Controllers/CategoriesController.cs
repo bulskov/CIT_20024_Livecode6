@@ -107,26 +107,8 @@ public class CategoriesController : BaseController
         }
 
         var model = category.Adapt<CategoryModel>();
-        model.Url = GetUrl(category.Id);
+        model.Url = GetUrl(nameof(GetCategory), new { category.Id });
 
         return model;
     }
-
-    private string? GetUrl(int id)
-    {
-        return _linkGenerator.GetUriByName(
-            HttpContext, 
-            nameof(GetCategory), new { id });
-    }
-
-    private string? GetLink(string linkName, int page, int pageSize)
-    {
-        return _linkGenerator.GetUriByName(
-                    HttpContext,
-                    linkName,
-                    new { page, pageSize }
-                    );
-    }
-     
-
 }

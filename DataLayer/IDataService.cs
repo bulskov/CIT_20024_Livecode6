@@ -10,7 +10,7 @@ public interface IDataService
 
     bool DeleteCategory(int id);
 
-    IList<Product> GetProducts();
+    IList<Product> GetProducts(int page, int pageSize);
 
     int NumberOfProducts();
 

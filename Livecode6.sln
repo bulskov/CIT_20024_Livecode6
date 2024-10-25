@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLayer", "DataLayer\Data
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DummyDataLayer", "DummyDataLayer\DummyDataLayer.csproj", "{1F5ED1B1-0C8C-43EA-BD99-24FBA357AE4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostgresDataService", "PostgresDataService\PostgresDataService.csproj", "{C1F4B6F4-E4D5-45A0-BF42-D2F1ECF3DB10}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PostgresDataService", "PostgresDataService\PostgresDataService.csproj", "{C1F4B6F4-E4D5-45A0-BF42-D2F1ECF3DB10}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

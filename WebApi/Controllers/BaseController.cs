@@ -13,20 +13,23 @@ public class BaseController : ControllerBase
         _linkGenerator = linkGenerator;
     }
 
+    protected string? GetUrl(string linkName, object args)
+    {
+        return _linkGenerator.GetUriByName(
+            HttpContext,
+            linkName, args);
+    }
+
 
     protected string? GetLink(string linkName, int page, int pageSize)
     {
-        return _linkGenerator.GetUriByName(
-                    HttpContext,
-                    linkName,
-                    new { page, pageSize }
-                    );
+        return GetUrl(linkName, new { page, pageSize });
     }
 
     protected object CreatePaging<T>(string linkName, int page, int pageSize, int total, IEnumerable<T?> items)
     {
         const int MaxPageSize = 25;
-        pageSize = pageSize < MaxPageSize  ? MaxPageSize : pageSize;
+        pageSize = pageSize > MaxPageSize  ? MaxPageSize : pageSize;
 
         var numberOfPages =
             (int)Math.Ceiling(total / (double)pageSize);

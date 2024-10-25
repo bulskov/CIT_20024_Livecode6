@@ -73,10 +73,14 @@ public class DataService : IDataService
         return db.Categories.Find(id);
     }
 
-    public IList<Product> GetProducts()
+    public IList<Product> GetProducts(int page, int pageSize)
     {
         var db = new NorthwindContext();
-        return db.Products.Include(x => x.Category).ToList();
+        return db.Products
+            .Include(x => x.Category)
+            .Skip(page * pageSize)
+            .Take(pageSize)
+            .ToList();
     }
 
     public int NumberOfProducts()
